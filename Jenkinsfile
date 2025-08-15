@@ -36,10 +36,10 @@ node {
         docker.login("${DOCKER_USER}", "${DOCKER_PASS}")
         docker.push("iti-java", "${BUILD_NUMBER}")
     }
-    stage("push java app image"){
-        sh "mkdir argocd"
-        sh "cd argocd"
-        checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/AlaaMohamed09/k8s-project.git']])
-        sh "sed -i #        image: .*#        image: iti-java:${BUILD_NUMBER}# ./deployment.yaml"
-    }
+//    stage("push java app image"){
+//        sh "mkdir argocd"
+//        sh "cd argocd"
+//        checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/AlaaMohamed09/k8s-project.git']])
+//        sh "sed -i #        image: .*#        image: iti-java:${BUILD_NUMBER}# ./deployment.yaml"
+//    }
 }
