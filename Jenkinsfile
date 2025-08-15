@@ -31,11 +31,14 @@ node {
         def docker = new com.iti.docker()
         docker.build("iti-java", "${BUILD_NUMBER}")
     }
-    stage("push java app image"){
-        def docker = new com.iti.docker()
-        docker.login("${DOCKER_USER}", "${DOCKER_PASS}")
+    stage("push java app image") {
+    def docker = new com.iti.docker()
+    withCredentials([usernamePassword(credentialsId: 'docker-username-password', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+        docker.login(env.USER, env.PASS)
         docker.push("iti-java", "${BUILD_NUMBER}")
     }
+}
+
 //    stage("push java app image"){
 //        sh "mkdir argocd"
 //        sh "cd argocd"
