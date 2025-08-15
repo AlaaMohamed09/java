@@ -12,7 +12,7 @@ node {
     def DOCKER_PASS = credentials('docker-password')
 
     stage("Get code"){
-        checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Hassan-Eid-Hassan/java.git']])
+        checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/AlaaMohamed09/java.git']])
     }
     stage("build app"){
         env.JAVA_HOME = javaHome
