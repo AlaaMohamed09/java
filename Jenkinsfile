@@ -58,7 +58,7 @@ pipeline {
         stage('Update ArgoCD repo') {
             steps {
                 dir('argocd') {
-                    // ✅ Fix 1: checkout main branch directly
+                    
                     checkout([
                         $class: 'GitSCM',
                         branches: [[name: 'main']],
@@ -76,7 +76,7 @@ pipeline {
                     """
 
                     withCredentials([usernamePassword(credentialsId: 'github-credentials', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
-                        // ✅ Fix 2: ensure we have local main branch checked out
+                       
                         sh """
                             git checkout -B main
                             git config user.email "jenkins@ci.local"
