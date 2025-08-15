@@ -41,7 +41,7 @@ pipeline {
             steps {
                 script {
                     def docker = new com.iti.docker()
-                    docker.build("iti-java", "${BUILD_NUMBER}")
+                    docker.build("java_app", "${BUILD_NUMBER}")
                 }
             }
         }
@@ -50,7 +50,7 @@ pipeline {
                 script {
                     def docker = new com.iti.docker()
                     docker.login("${DOCKER_USER}", "${DOCKER_PASS}")
-                    docker.push("iti-java", "${BUILD_NUMBER}")
+                    docker.push("java_app", "${BUILD_NUMBER}")
                 }
             }
         }
