@@ -55,25 +55,30 @@ pipeline {
                 }
             }
         }
-        
         stage('Update ArgoCD repo') {
             steps {
                 dir('argocd') {
-                    checkout scmGit(
-                        branches: [[name: '*/main']],
+                    // ✅ Fix 1: checkout main branch directly
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: 'main']],
+                        doGenerateSubmoduleConfigurations: false,
                         extensions: [],
+                        submoduleCfg: [],
                         userRemoteConfigs: [[
                             url: 'https://github.com/AlaaMohamed09/k8s-project.git',
                             credentialsId: 'github-credentials'
                         ]]
-                    )
-        
+                    ])
+
                     sh """
                         sed -i 's|image: .*|image: alaamohamed1/java_app:${BUILD_NUMBER}|' ./deployment.yaml
                     """
-        
+
                     withCredentials([usernamePassword(credentialsId: 'github-credentials', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
+                        // ✅ Fix 2: ensure we have local main branch checked out
                         sh """
+                            git checkout -B main
                             git config user.email "jenkins@ci.local"
                             git config user.name "Jenkins CI"
                             git add deployment.yaml
@@ -84,6 +89,5 @@ pipeline {
                 }
             }
         }
-        
     }
 }
