@@ -72,7 +72,7 @@ pipeline {
                     ])
 
                     sh """
-                        sed -i 's|image: .*|image: alaamohamed1/java_app:${BUILD_NUMBER}|' ./deployment.yaml
+                        sed -i 's|image: .*|image: alaamohamed1/java_app:v${BUILD_NUMBER}|' ./deployment.yaml
                     """
 
                     withCredentials([usernamePassword(credentialsId: 'github-credentials', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
@@ -82,7 +82,7 @@ pipeline {
                             git config user.email "jenkins@ci.local"
                             git config user.name "Jenkins CI"
                             git add deployment.yaml
-                            git commit -m "Update image tag to alaamohamed1/java_app:${BUILD_NUMBER}" || echo "No changes to commit"
+                            git commit -m "Update image tag to alaamohamed1/java_app:v${BUILD_NUMBER}" || echo "No changes to commit"
                             git push https://${GIT_USER}:${GIT_PASS}@github.com/AlaaMohamed09/k8s-project.git main
                         """
                     }
